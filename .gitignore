@@ -40,3 +40,4 @@ bin/
 .classpath
 .project
 .factorypath
+htmlReport/
