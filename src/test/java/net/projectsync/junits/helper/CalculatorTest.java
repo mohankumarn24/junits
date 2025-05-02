@@ -23,7 +23,7 @@ class CalculatorTest {
 
     // test private method using reflection
     @Test
-    public void testPrivateMethod() {
+    public void testPrivateMethodUpperCase() {
         try  {
             Calculator calc = new Calculator();
 
@@ -51,6 +51,35 @@ class CalculatorTest {
         }
     }
 
+    // test private method using reflection
+    @Test
+    public void testPrivateMethodLowerCase() {
+        try  {
+            Calculator calc = new Calculator();
+
+            // Get the private method by name and parameter types
+            Method privateMethod = Calculator.class.getDeclaredMethod("privateMethod", String.class);
+
+            // Make the private method accessible
+            privateMethod.setAccessible(true);
+
+            // access private variable
+            ReflectionTestUtils.setField(calc, "isUpperCase", false);
+            System.out.println("Flag:" + ReflectionTestUtils.getField(calc, "isUpperCase"));
+
+            // Invoke the private method
+            String countryCode = (String) privateMethod.invoke(calc, "INDIA");
+
+            Assertions.assertTrue("ind".equals(countryCode));
+
+        } catch (NoSuchMethodException e) {
+            System.err.println("Method not found: " + e.getMessage());
+        } catch (IllegalAccessException e) {
+            System.err.println("Cannot access method: " + e.getMessage());
+        } catch (InvocationTargetException e) {
+            System.err.println("Method threw an exception: " + e.getCause());
+        }
+    }
 
     /**
      * Cannot mock static method. In this scenario, call directly

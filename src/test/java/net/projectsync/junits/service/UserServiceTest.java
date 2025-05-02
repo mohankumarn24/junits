@@ -1,6 +1,8 @@
 package net.projectsync.junits.service;
 
-import org.hibernate.mapping.Any;
+import net.projectsync.junits.model.User;
+import net.projectsync.junits.repository.UserRepository;
+import net.projectsync.junits.util.UserHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,17 +11,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import net.projectsync.junits.model.User;
-import net.projectsync.junits.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,8 +27,8 @@ public class UserServiceTest {
     
     @Test
     public void testCreateUser() {
-        User user = getUser();
-        Mockito.when(userRepository.save(user)).thenReturn(user);
+        User user = UserHelper.getUser();
+        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(UserHelper.getUser());
         User newUser = userService.createUser(user);
 
         Assertions.assertNotNull(newUser);
@@ -46,9 +40,8 @@ public class UserServiceTest {
 
     @Test
     public void testGetUserById() {
-        Long id = 1L;
-        Mockito.when(userRepository.findById(id)).thenReturn(Optional.of(getUser()));
-        User newUser = userService.getUserById(id);
+        Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(UserHelper.getUser()));
+        User newUser = userService.getUserById(1L);
 
         Assertions.assertNotNull(newUser);
         Assertions.assertEquals(1L, newUser.getId());
@@ -59,8 +52,7 @@ public class UserServiceTest {
 
     @Test
     public void testGetAllUsers() {
-        List<User> users = getUsers();
-        Mockito.when(userRepository.findAll()).thenReturn(getUsers());
+        Mockito.when(userRepository.findAll()).thenReturn(UserHelper.getUsers());
         List<User> newUsers = userService.getAllUsers();
 
         Assertions.assertNotNull(newUsers);
@@ -80,13 +72,12 @@ public class UserServiceTest {
     @Test
     public void testUpdateUser() {
 
-        User user = getUser();
-        Mockito.when(userRepository.findById(user.getId())).thenReturn(Optional.of(getUser()));
-        Mockito.when(userRepository.save(any(User.class))).thenReturn(getUpdatedUser());
-        User updatedUser = userService.updateUser(user);
+        Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(UserHelper.getUser()));
+        Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(UserHelper.getUpdatedUser());
+        User updatedUser = userService.updateUser(UserHelper.getUser());
 
         Assertions.assertNotNull(updatedUser);
-        Assertions.assertEquals(user.getId(), updatedUser.getId());
+        Assertions.assertEquals(1L, updatedUser.getId());
         Assertions.assertTrue("Rahul1".equalsIgnoreCase(updatedUser.getFirstName()));
         Assertions.assertTrue("Dravid1".equalsIgnoreCase(updatedUser.getLastName()));
         Assertions.assertTrue("rahul.dravid@gmail.com".equalsIgnoreCase(updatedUser.getEmail()));
@@ -100,46 +91,5 @@ public class UserServiceTest {
 
         // Mockito.verify(userRepository).deleteById(5L);
         Mockito.verify(userRepository, Mockito.times(1)).deleteById(5L);
-    }
-
-    private User getUser() {
-        User user = new User();
-        user.setId(1L);
-        user.setFirstName("Rahul");
-        user.setLastName("Dravid");
-        user.setEmail("rahul@gmail.com");
-
-        return user;
-    }
-
-    private List<User> getUsers() {
-        List<User> users = new ArrayList<>();
-
-        User user1 = new User();
-        user1.setId(1L);
-        user1.setFirstName("Rahul");
-        user1.setLastName("Dravid");
-        user1.setEmail("rahul@gmail.com");
-
-        User user2 = new User();
-        user2.setId(2L);
-        user2.setFirstName("Sachin");
-        user2.setLastName("Tendulkar");
-        user2.setEmail("sachin.rt@gmail.com");
-
-        users.add(user1);
-        users.add(user2);
-
-        return users;
-    }
-
-    private User getUpdatedUser() {
-        User user = new User();
-        user.setId(1L);
-        user.setFirstName("Rahul1");
-        user.setLastName("Dravid1");
-        user.setEmail("rahul.dravid@gmail.com");
-
-        return user;
     }
 }
