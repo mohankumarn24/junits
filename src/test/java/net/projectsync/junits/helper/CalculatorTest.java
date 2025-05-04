@@ -81,19 +81,8 @@ class CalculatorTest {
         }
     }
 
-    /**
-     * Cannot mock static method. In this scenario, call directly
-     */
     @Test
     public void testStaticMethod() {
-        /*
-        try (MockedStatic<Calculator> mockedStatic = Mockito.mockStatic(Calculator.class)) {
-            mockedStatic.when(() -> Calculator.getString()).thenReturn("Mocked String");
-            String result = Calculator.getString();
-            Assertions.assertTrue("Mocked String".equals(result));
-        }
-        */
-
         Assertions.assertTrue(Calculator.getString().equals("Original string"));
     }
 
@@ -103,7 +92,7 @@ class CalculatorTest {
     }
 
     @Test
-    public void testSubraction() {
+    public void testSubtraction() {
         assertEquals(4, calculator.subtract(6, 2));
     }
 

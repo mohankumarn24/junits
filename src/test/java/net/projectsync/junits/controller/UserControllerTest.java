@@ -18,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class) // ensures that only beans relevant to the Web layer are loaded into the ApplicationContext
@@ -42,6 +43,8 @@ public class UserControllerTest {
                         .header("Accept", "application/json")
                         .content(reqBody))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
+                //.andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                //.andExpect(MockMvcResultMatchers.header().string("custom-header", "some-value"));
 
         Mockito.verify(userService, Mockito.times(1)).createUser(Mockito.any(User.class));
     }
