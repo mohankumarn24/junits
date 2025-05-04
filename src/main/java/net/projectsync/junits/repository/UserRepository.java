@@ -6,4 +6,7 @@ import net.projectsync.junits.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    public static String getString() {
+        return "original string";
+    }
 }

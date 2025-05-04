@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.mockStatic;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -91,5 +93,23 @@ public class UserServiceTest {
 
         // Mockito.verify(userRepository).deleteById(5L);
         Mockito.verify(userRepository, Mockito.times(1)).deleteById(5L);
+    }
+
+    /**
+     * Can we mock static method UserRepository.getString()? No
+     * - In Java, static methods like getString() in your UserRepository interface cannot be mocked directly using classic Mockito (prior to version 3.4.0).
+     * - However, starting with Mockito 3.4.0, you can use mocking of static methods via mockito-inline
+     * - Here’s how to mock the getString() static method of UserRepository using Mockito 3.4.0+ with the mockito-inline dependency
+     *  -- Add "mockito-inline" to Your pom.xml (for Maven)
+     *  -- Mock the Static Method in Your Test testMockStaticGetString()
+     */
+    @Test
+    void testMockStaticGetString() {
+
+        try (MockedStatic<UserRepository> mockedStatic = mockStatic(UserRepository.class)) {
+            mockedStatic.when(UserRepository::getString).thenReturn("mocked string");
+            String result = UserRepository.getString();
+            Assertions.assertEquals("mocked string", result);
+        }
     }
 }

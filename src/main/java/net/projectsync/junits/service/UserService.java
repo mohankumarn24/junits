@@ -43,4 +43,9 @@ public class UserService implements IUserService {
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }
+
+    public void getString() {
+        String str = UserRepository.getString();
+        System.out.println(str);
+    }
 }
