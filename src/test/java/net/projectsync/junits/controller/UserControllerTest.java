@@ -38,6 +38,8 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .characterEncoding(StandardCharsets.UTF_8)
+                        .header("Content-Type", "application/json")
+                        .header("Accept", "application/json")
                         .content(reqBody))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
