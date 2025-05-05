@@ -24,11 +24,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(UserController.class) // ensures that only beans relevant to the Web layer are loaded into the ApplicationContext
 public class UserControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
     @MockBean
     private UserService userService;
+    
+    @Autowired
+    private MockMvc mockMvc;
 
     @Test
     public void testCreateUser() throws Exception {
