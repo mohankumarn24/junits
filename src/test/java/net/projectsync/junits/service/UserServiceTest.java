@@ -28,8 +28,9 @@ public class UserServiceTest {
     
     @Test
     public void testCreateUser() {
+
         User user = UserHelper.getUser();
-        Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(UserHelper.getUser());
+        Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(UserHelper.getUser());
         User newUser = userService.createUser(user);
 
         Assertions.assertNotNull(newUser);
@@ -37,10 +38,13 @@ public class UserServiceTest {
         Assertions.assertTrue(user.getFirstName().equalsIgnoreCase(newUser.getFirstName()));
         Assertions.assertTrue(user.getLastName().equalsIgnoreCase(newUser.getLastName()));
         Assertions.assertTrue(user.getEmail().equalsIgnoreCase(newUser.getEmail()));
+
+        Mockito.verify(userRepository, Mockito.times(1)).save(Mockito.any(User.class));
     }
 
     @Test
     public void testGetUserById() {
+
         Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(UserHelper.getUser()));
         User newUser = userService.getUserById(1L);
 
@@ -53,6 +57,7 @@ public class UserServiceTest {
 
     @Test
     public void testGetAllUsers() {
+        
         Mockito.when(userRepository.findAll()).thenReturn(UserHelper.getUsers());
         List<User> newUsers = userService.getAllUsers();
 
