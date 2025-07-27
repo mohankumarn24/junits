@@ -44,8 +44,8 @@ public class UserService implements IUserService {
         userRepository.deleteById(userId);
     }
 
-    public void getString() {
+    public String getString() {
         String str = UserRepository.getString();
-        System.out.println(str);
+        return str;
     }
 }
