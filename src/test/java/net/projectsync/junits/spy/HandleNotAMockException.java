@@ -1,5 +1,6 @@
 package net.projectsync.junits.spy;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.exceptions.misusing.NotAMockException;
@@ -12,15 +13,15 @@ public class HandleNotAMockException {
 
     @Test
     public void testNotAMockException() {
+
         try {
             // Create a regular ArrayList (not a mock or spy)
             ArrayList<Integer> regularList = new ArrayList<>();
             regularList.add(5);
 
             // Try to verify an interaction on a regular object
-            Mockito.verify(regularList).add(5);
-
-            fail("Expected NotAMockException was not thrown");
+            Mockito.verify(regularList, Mockito.times(1)).add(5);
+            Assertions.fail("Expected NotAMockException was not thrown");
         } catch (NotAMockException e) {
             // Expected exception
             System.out.println("NotAMockException Example - Caught expected exception: " + e.getMessage());

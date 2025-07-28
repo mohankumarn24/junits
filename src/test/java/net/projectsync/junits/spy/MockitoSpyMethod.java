@@ -1,5 +1,6 @@
 package net.projectsync.junits.spy;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -14,6 +15,7 @@ public class MockitoSpyMethod {
     // Using Mockito.spy() Method
     @Test
     public void testSpyWithMockitoSpyMethod() {
+
         // Create an ArrayList and a spy of it
         ArrayList<Integer> realList = new ArrayList<>();
         ArrayList<Integer> spyList = Mockito.spy(realList);
@@ -24,12 +26,12 @@ public class MockitoSpyMethod {
         spyList.add(15);
 
         // Verifying interactions
-        Mockito.verify(spyList).add(5);
-        Mockito.verify(spyList).add(10);
-        Mockito.verify(spyList).add(15);
+        Mockito.verify(spyList, Mockito.times(1)).add(5);
+        Mockito.verify(spyList, Mockito.times(1)).add(10);
+        Mockito.verify(spyList, Mockito.times(1)).add(15);
 
         // Verifying that elements were actually added to the list
-        assertEquals(3, spyList.size());
+        Assertions.assertEquals(3, spyList.size());
 
         System.out.println("Spy Method Example - Spy List Content: " + spyList);
         System.out.println("Spy Method Example - Spy List Size: " + spyList.size());

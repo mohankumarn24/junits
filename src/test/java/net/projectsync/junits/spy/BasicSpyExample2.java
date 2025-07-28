@@ -2,15 +2,14 @@ package net.projectsync.junits.spy;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
 import java.util.List;
-
 import static org.mockito.Mockito.*;
 
 public class BasicSpyExample2 {
 
     @Test
     void testVerifyWithMock() {
+
         // Create a mock object
         List<String> mockedList = Mockito.mock(List.class);
 
@@ -19,12 +18,13 @@ public class BasicSpyExample2 {
         mockedList.clear();
 
         // Verify interactions
-        verify(mockedList).add("apple");
-        verify(mockedList).clear();
+        Mockito.verify(mockedList, Mockito.times(1)).add("apple");
+        Mockito.verify(mockedList, Mockito.times(1)).clear();
     }
 
     @Test
     void testSpy() {
+
         // Create a real list and spy on it
         List<String> realList = new java.util.ArrayList<>();
         List<String> spyList = Mockito.spy(realList);
@@ -37,7 +37,7 @@ public class BasicSpyExample2 {
         System.out.println(spyList.get(0)); // Output: banana
 
         // Verify interactions
-        verify(spyList).add("banana");
-        verify(spyList).add("cherry");
+        Mockito.verify(spyList, Mockito.times(1)).add("banana");
+        Mockito.verify(spyList, Mockito.times(1)).add("cherry");
     }
 }

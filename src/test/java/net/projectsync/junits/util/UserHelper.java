@@ -1,7 +1,6 @@
 package net.projectsync.junits.util;
 
 import net.projectsync.junits.model.User;
-
 import java.util.ArrayList;
 import java.util.List;
 

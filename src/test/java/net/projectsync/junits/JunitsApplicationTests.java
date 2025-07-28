@@ -10,5 +10,4 @@ class JunitsApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

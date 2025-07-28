@@ -6,10 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CalculatorTest {

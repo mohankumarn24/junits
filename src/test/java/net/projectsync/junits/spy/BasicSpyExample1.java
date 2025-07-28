@@ -11,6 +11,7 @@ public class BasicSpyExample1 {
 
     @Test
     public void basicSpyExample() {
+
         // Create a list and spy on it
         List<String> realList = new ArrayList<>();
         List<String> spyList = Mockito.spy(realList);
