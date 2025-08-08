@@ -106,20 +106,26 @@ public class UserServiceTest {
         Mockito.verify(userRepository, Mockito.times(1)).deleteById(5L);
     }
 
-    // throw unchecked exception for non-void method
+    /*
+     * checked exception, void method
+     * checked exception, non-void method
+     * unchecked exception, void method
+     * unchecked exception, non-void method
+     */
+    // throw checked exception for void method
     @Test
-    public void testGetUserByIdThrowUncheckedException() {
+    public void testDeleteByIdThrowCheckedException() {
 
-        Mockito.when(userRepository.findById(Mockito.anyLong())).thenThrow(new ArithmeticException("Division by zero"));
-        // Mockito.when(userRepository.findById(Mockito.anyLong())).thenThrow(new IllegalArgumentException("Invalid Argument"));
-        // Mockito.when(userRepository.findById(Mockito.anyLong())).thenThrow(new IllegalStateException("Processing failed"));
-        // Mockito.when(userRepository.findById(Mockito.anyLong())).thenThrow(new RuntimeException("Non-void method failed"));
-        RuntimeException runtimeException = Assertions.assertThrows(RuntimeException.class, () -> {
-            userService.getUserById(1L);
+        // Mockito.doThrow(new IOException("File not found")).when(userRepository).deleteById(Mockito.anyLong()); // Getting error "Checked exception is invalid for this method!"
+        Mockito.doAnswer(invocation -> {
+            throw new IOException("File not found");
+        }).when(userRepository).deleteById(Mockito.anyLong());
+        Exception exception = Assertions.assertThrows(Exception.class, () -> {
+            userService.deleteUser(1L);
         });
-        Assertions.assertEquals("Division by zero", runtimeException.getMessage());
+        Assertions.assertEquals("File not found", exception.getMessage());
 
-        Mockito.verify(userRepository, Mockito.times(1)).findById(Mockito.anyLong());
+        Mockito.verify(userRepository, Mockito.times(1)).deleteById(Mockito.anyLong());
     }
 
     // throw checked exception for non-void method
@@ -138,7 +144,6 @@ public class UserServiceTest {
         Mockito.verify(userRepository, Mockito.times(1)).findById(Mockito.anyLong());
     }
 
-
     // throw unchecked exception for void method
     @Test
     public void testDeleteByIdThrowUncheckedException() {
@@ -155,20 +160,20 @@ public class UserServiceTest {
         Mockito.verify(userRepository, Mockito.times(1)).deleteById(Mockito.anyLong());
     }
 
-    // throw checked exception for void method
+    // throw unchecked exception for non-void method
     @Test
-    public void testDeleteByIdThrowCheckedException() {
+    public void testGetUserByIdThrowUncheckedException() {
 
-        // Mockito.doThrow(new IOException("File not found")).when(userRepository).deleteById(Mockito.anyLong()); // Getting error "Checked exception is invalid for this method!"
-        Mockito.doAnswer(invocation -> {
-            throw new IOException("File not found");
-        }).when(userRepository).deleteById(Mockito.anyLong());
-        Exception exception = Assertions.assertThrows(Exception.class, () -> {
-            userService.deleteUser(1L);
+        Mockito.when(userRepository.findById(Mockito.anyLong())).thenThrow(new ArithmeticException("Division by zero"));
+        // Mockito.when(userRepository.findById(Mockito.anyLong())).thenThrow(new IllegalArgumentException("Invalid Argument"));
+        // Mockito.when(userRepository.findById(Mockito.anyLong())).thenThrow(new IllegalStateException("Processing failed"));
+        // Mockito.when(userRepository.findById(Mockito.anyLong())).thenThrow(new RuntimeException("Non-void method failed"));
+        RuntimeException runtimeException = Assertions.assertThrows(RuntimeException.class, () -> {
+            userService.getUserById(1L);
         });
-        Assertions.assertEquals("File not found", exception.getMessage());
+        Assertions.assertEquals("Division by zero", runtimeException.getMessage());
 
-        Mockito.verify(userRepository, Mockito.times(1)).deleteById(Mockito.anyLong());
+        Mockito.verify(userRepository, Mockito.times(1)).findById(Mockito.anyLong());
     }
 
     /**

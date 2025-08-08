@@ -22,24 +22,20 @@ class CalculatorTest {
     // test private method using reflection
     @Test
     public void testPrivateMethodUpperCase() {
+
         try  {
             Calculator calc = new Calculator();
-
-            // Get the private method by name and parameter types
-            Method privateMethod = Calculator.class.getDeclaredMethod("privateMethod", String.class);
-
-            // Make the private method accessible
-            privateMethod.setAccessible(true);
 
             // access private variable
             ReflectionTestUtils.setField(calc, "isUpperCase", true);
             System.out.println("Flag:" + ReflectionTestUtils.getField(calc, "isUpperCase"));
 
-            // Invoke the private method
-            String countryCode = (String) privateMethod.invoke(calc, "INDIA");
+            // Get the private method by name and parameter types
+            Method privateMethod = Calculator.class.getDeclaredMethod("privateMethod", String.class);
+            privateMethod.setAccessible(true);  // Make the private method accessible
+            String countryCode = (String) privateMethod.invoke(calc, "INDIA");  // Invoke the private method
 
             Assertions.assertTrue("IND".equals(countryCode));
-
         } catch (NoSuchMethodException e) {
             System.err.println("Method not found: " + e.getMessage());
         } catch (IllegalAccessException e) {
@@ -52,24 +48,20 @@ class CalculatorTest {
     // test private method using reflection
     @Test
     public void testPrivateMethodLowerCase() {
+
         try  {
             Calculator calc = new Calculator();
-
-            // Get the private method by name and parameter types
-            Method privateMethod = Calculator.class.getDeclaredMethod("privateMethod", String.class);
-
-            // Make the private method accessible
-            privateMethod.setAccessible(true);
 
             // access private variable
             ReflectionTestUtils.setField(calc, "isUpperCase", false);
             System.out.println("Flag:" + ReflectionTestUtils.getField(calc, "isUpperCase"));
 
-            // Invoke the private method
-            String countryCode = (String) privateMethod.invoke(calc, "INDIA");
+            // Get the private method by name and parameter types
+            Method privateMethod = Calculator.class.getDeclaredMethod("privateMethod", String.class);
+            privateMethod.setAccessible(true);  // Make the private method accessible
+            String countryCode = (String) privateMethod.invoke(calc, "INDIA");  // Invoke the private method
 
             Assertions.assertTrue("ind".equals(countryCode));
-
         } catch (NoSuchMethodException e) {
             System.err.println("Method not found: " + e.getMessage());
         } catch (IllegalAccessException e) {
