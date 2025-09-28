@@ -47,14 +47,34 @@ public class UserControllerTest {
         Mockito.verify(userService, Mockito.times(1)).createUser(Mockito.any(User.class));
     }
 
+    // GET /api/users/{id}
+    // X-API-VERSION=1
     @Test
-    public void testGetUserById() throws Exception {
+    public void testGetUserByIdV1() throws Exception {
         Mockito.when(userService.getUserById(Mockito.anyLong())).thenReturn(UserHelper.getUpdatedUser());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/users/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .characterEncoding(StandardCharsets.UTF_8))
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .header("X-API-VERSION", "1"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1));
+
+        Mockito.verify(userService, Mockito.times(1)).getUserById(Mockito.anyLong());
+    }
+
+    // GET /api/users/{id}
+    // X-API-VERSION=2
+    @Test
+    public void testGetUserByIdV2() throws Exception {
+        Mockito.when(userService.getUserById(Mockito.anyLong())).thenReturn(UserHelper.getUpdatedUser());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/{id}", 1)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .header("X-API-VERSION", "2"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1));
 

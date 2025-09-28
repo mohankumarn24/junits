@@ -1,7 +1,6 @@
 package net.projectsync.junits.controller;
 
 import java.util.List;
-
 import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,31 +17,48 @@ public class UserController {
 
 	private final UserService userService;
 
-	// build create User REST API
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, headers = {"Content-Type=application/json", "Accept=application/json"})
+    /**
+     * POST/PUT/PATCH → consumes + produces
+     * build create User REST API
+     */
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> createUser(@RequestBody User user) {
 		User savedUser = userService.createUser(user);
 		return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 	}
 
-	// build get user by id REST API
-	// http://localhost:5000/api/users/1
-	@GetMapping(value="/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, headers = {"Content-Type=application/json", "Accept=application/json"})
-	public ResponseEntity<User> getUserById(@PathVariable("id") Long userId) {
+    /**
+     * GET → only produces
+     * build get user by id REST API
+     * build get user by id REST API
+     */
+	@GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE, headers = "X-API-VERSION=1")
+	public ResponseEntity<User> getUserByIdv1(@PathVariable("id") Long userId) {
 		User user = userService.getUserById(userId);
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
-	// Build Get All Users REST API
-	// http://localhost:5000/api/users
-	@GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, headers = {"Content-Type=application/json", "Accept=application/json"})
+    @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE, headers = "X-API-VERSION=2")
+    public ResponseEntity<User> getUserByIdv2(@PathVariable("id") Long userId) {
+        User user = userService.getUserById(userId);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    /**
+     * Build Get All Users REST API
+     * GET → only produces
+     */
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<User>> getAllUsers() {
 		List<User> users = userService.getAllUsers();
 		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
 
-	// Build Update User REST API
-	@PutMapping(value="/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, headers = {"Content-Type=application/json", "Accept=application/json"})
+    /**
+     * POST/PUT/PATCH → consumes + produces
+     * Build Update User REST API
+     */
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	// http://localhost:5000/api/users/1
 	public ResponseEntity<User> updateUser(@PathVariable("id") Long userId, @RequestBody User user) {
 		user.setId(userId);
@@ -50,18 +66,22 @@ public class UserController {
 		return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 	}
 
-	// Build Delete User REST API
-	// http://localhost:5000/api/users/1
-	@DeleteMapping(value="/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, headers = {"Content-Type=application/json", "Accept=application/json"})
+    /**
+     * DELETE → usually neither, sometimes produces if it returns a body
+     * Build Delete User REST API
+     */
+	@DeleteMapping(value="/{id}")
 	public ResponseEntity<String> deleteUser(@PathVariable("id") Long userId) {
 		userService.deleteUser(userId);
 		// return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<>("User successfully deleted!", HttpStatus.NO_CONTENT);
 	}
 
-	// Build Delete User REST API
-	// http://localhost:5000/api/users?id=1
-	@DeleteMapping(params = {"id"}, consumes = MediaType.APPLICATION_JSON_VALUE, headers = {"Content-Type=application/json", "Accept=application/json"})
+    /**
+     * DELETE → usually neither, sometimes produces if it returns a body
+     * Build Delete User REST API
+     */
+	@DeleteMapping(params = {"id"})
 	public ResponseEntity<String> deleteUserByParam(@RequestParam(name = "id") @NonNull Long userId) {
 		userService.deleteUser(userId);
 		// return new ResponseEntity<>(HttpStatus.NO_CONTENT);
