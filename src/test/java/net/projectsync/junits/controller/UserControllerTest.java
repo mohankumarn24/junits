@@ -34,8 +34,8 @@ public class UserControllerTest {
         String reqBody = new ObjectMapper().writeValueAsString(UserHelper.getUser());
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)  // Purpose: Tells the server what type of data you are sending in the request body. Used in: POST, PUT, PATCH, sometimes DELETE requests where there’s a body.
+                        .accept(MediaType.APPLICATION_JSON_VALUE)       // Purpose: Tells the server what type of data you want in the response. Used in: Any HTTP method (GET, POST, etc.).
                         .characterEncoding(StandardCharsets.UTF_8)
                         .header("Content-Type", "application/json")
                         .header("Accept", "application/json")
