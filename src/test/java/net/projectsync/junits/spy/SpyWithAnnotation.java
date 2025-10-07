@@ -18,11 +18,15 @@ public class SpyWithAnnotation {
     @Spy
     ArrayList<Integer> annotationSpyList = new ArrayList<>();
 
+    /*
+    // Since you are already using @ExtendWith(MockitoExtension.class), you do NOT need this at all.
+    // The extension automatically initializes all @Mock and @Spy annotations
     @Before("testSpyWithAnnotation")
     public void initSpies() {
         // Initialize mocks and spies with annotations
         MockitoAnnotations.initMocks(this);
     }
+    */
 
     @Test
     public void testSpyWithAnnotation() {

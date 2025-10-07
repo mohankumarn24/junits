@@ -13,6 +13,7 @@ public class StubbingSpy {
     public void testStubbingSpy() {
 
         // Create a spy of ArrayList
+        // A spy wraps a real object: real methods are called by default
         ArrayList<Integer> spyList = Mockito.spy(new ArrayList<>());
 
         // Add an element
@@ -26,6 +27,7 @@ public class StubbingSpy {
         System.out.println("Stubbing Example - Default behavior: spyList.contains(5) = " + spyList.contains(5));
 
         // Stub the contains() method to always return false for the value 5
+        // Note: doReturn().when() is used to avoid calling the real method during stubbing
         Mockito.doReturn(false).when(spyList).contains(5);
 
         // Now contains() should return false, even though the element is in the list

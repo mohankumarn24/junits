@@ -117,7 +117,11 @@ public class UserServiceTest {
     public void testDeleteByIdThrowCheckedException() {
 
         // Mockito.doThrow(new IOException("File not found")).when(userRepository).deleteById(Mockito.anyLong()); // Getting error "Checked exception is invalid for this method!"
+        // deleteById() in Spring Data JPA’s CrudRepository does NOT declare any checked exceptions. That’s why you get "Checked exception is invalid for this method!"
         Mockito.doAnswer(invocation -> {
+            // Answer is a Mockito interface that lets you define custom behavior for a stubbed method
+            // Instead of just returning a value or throwing a simple exception, you can write code that runs when the mocked method is called.
+            Long id = invocation.getArgument(0); // optional: inspect argument.
             throw new IOException("File not found");
         }).when(userRepository).deleteById(Mockito.anyLong());
         Exception exception = Assertions.assertThrows(Exception.class, () -> {
