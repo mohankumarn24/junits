@@ -17,10 +17,10 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mockStatic;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(MockitoExtension.class)         // Unit test for the service class only. No Spring context needed. Enables Mockito annotations (@Mock, @InjectMocks) without Spring context.
 public class UserServiceTest {
 
-    @Mock
+    @Mock                                   // Dependencies are mocked using @Mock and injected using @InjectMocks
     private UserRepository userRepository;
     
     @InjectMocks

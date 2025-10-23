@@ -19,14 +19,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(UserController.class) // ensures that only beans relevant to the Web layer are loaded into the ApplicationContext
+/**
+ | Bean Type                     | Loaded by `@WebMvcTest(UserController.class)`? |
+ | ----------------------------- | ---------------------------------------------- |
+ | Controller (`UserController`) | ✅ Yes                                          |
+ | Other controllers             | ❌ No (unless included in `@WebMvcTest` list)   |
+ | Services (`@Service`)         | ❌ No, must use `@MockBean`                     |
+ | Repositories (`@Repository`)  | ❌ No                                           |
+ | Configuration beans           | ✅ Web MVC config, Jackson, converters          |
+ | Filters, interceptors         | ✅ Only web-related                             |
+ | `MockMvc`                     | ✅ Autoconfigured                               |
+ */
+@WebMvcTest(UserController.class)      // Unit test for the controller class only. Partial Spring context (web layer) needed i.e. loads beans relevant to controller/web layer.
 public class UserControllerTest {
 
-    @MockBean
+    @MockBean                          // Dependencies (Services, repositories) are mocked using @MockBean. Spring injects the mock into the controller.
     private UserService userService;
     
     @Autowired
-    private MockMvc mockMvc;
+    private MockMvc mockMvc;           // MockMvc is used to simulate HTTP requests without starting a server
 
     @Test
     public void testCreateUser() throws Exception {

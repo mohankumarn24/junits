@@ -4,11 +4,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 // This class is not needed. This slows down executing unit test cases as it uses @SpringBootTest
-@SpringBootTest
+@SpringBootTest                 // tells Spring to load the full application context for the test
 class JunitsApplicationTests {
 
-	@Test
+	@Test                       // a smoke test: it verifies that Spring can start the application without any exceptions
 	void contextLoads() {
+                                // No assertions are needed; if the context fails to start, the test will fail
 	}
 }
 
