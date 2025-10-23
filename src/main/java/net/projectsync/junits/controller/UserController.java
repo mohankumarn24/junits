@@ -12,11 +12,17 @@ import net.projectsync.junits.service.UserService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
 	private final UserService userService;
 
+    /* All TCD's works for below constructor as well
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+    */
+    
     /**
      * POST/PUT/PATCH → consumes + produces
      * build create User REST API

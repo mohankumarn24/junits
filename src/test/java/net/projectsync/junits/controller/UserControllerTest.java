@@ -44,7 +44,7 @@ public class UserControllerTest {
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(UserHelper.getUser());
         String reqBody = new ObjectMapper().writeValueAsString(UserHelper.getUser());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/users")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)  // Purpose: Tells the server what type of data you are sending in the request body. Used in: POST, PUT, PATCH, sometimes DELETE requests where there’s a body.
                         .accept(MediaType.APPLICATION_JSON_VALUE)       // Purpose: Tells the server what type of data you want in the response. Used in: Any HTTP method (GET, POST, etc.).
                         .characterEncoding(StandardCharsets.UTF_8)
@@ -58,13 +58,13 @@ public class UserControllerTest {
         Mockito.verify(userService, Mockito.times(1)).createUser(Mockito.any(User.class));
     }
 
-    // GET /api/users/{id}
+    // GET /api/v1/users/{id}
     // X-API-VERSION=1
     @Test
     public void testGetUserByIdV1() throws Exception {
         Mockito.when(userService.getUserById(Mockito.anyLong())).thenReturn(UserHelper.getUpdatedUser());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/{id}", 1)
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .characterEncoding(StandardCharsets.UTF_8)
@@ -75,13 +75,13 @@ public class UserControllerTest {
         Mockito.verify(userService, Mockito.times(1)).getUserById(Mockito.anyLong());
     }
 
-    // GET /api/users/{id}
+    // GET /api/v1/users/{id}
     // X-API-VERSION=2
     @Test
     public void testGetUserByIdV2() throws Exception {
         Mockito.when(userService.getUserById(Mockito.anyLong())).thenReturn(UserHelper.getUpdatedUser());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/{id}", 1)
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .characterEncoding(StandardCharsets.UTF_8)
@@ -96,7 +96,7 @@ public class UserControllerTest {
     public void testGetAllUsers() throws Exception {
         Mockito.when(userService.getAllUsers()).thenReturn(UserHelper.getUsers());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/users")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .characterEncoding(StandardCharsets.UTF_8))
@@ -112,7 +112,7 @@ public class UserControllerTest {
 
         Mockito.doNothing().when(userService).deleteUser(Mockito.anyLong());
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/users/{id}", 1)
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/users/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .characterEncoding(StandardCharsets.UTF_8))
@@ -126,7 +126,7 @@ public class UserControllerTest {
 
         Mockito.doNothing().when(userService).deleteUser(Mockito.anyLong());
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/users")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/users")
                         .param("id", String.valueOf(1L))
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
@@ -141,7 +141,7 @@ public class UserControllerTest {
 
         Mockito.doNothing().when(userService).deleteUser(Mockito.anyLong());
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/users")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/users")
                         .param("id", "invalidId") // invalid id
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
@@ -158,7 +158,7 @@ public class UserControllerTest {
         Mockito.when(userService.updateUser(Mockito.any(User.class))).thenReturn(UserHelper.getUpdatedUser());
         String reqBody = new ObjectMapper().writeValueAsString(UserHelper.getUser());
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/users/{id}", 1)
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/users/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .characterEncoding(StandardCharsets.UTF_8)
@@ -176,7 +176,7 @@ public class UserControllerTest {
     public void testCreateUserException() throws Exception {
         Mockito.when(userService.createUser(Mockito.any(User.class))).thenReturn(UserHelper.getUser());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/users")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .characterEncoding(StandardCharsets.UTF_8)
