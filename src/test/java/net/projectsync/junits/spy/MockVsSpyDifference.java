@@ -34,5 +34,9 @@ public class MockVsSpyDifference {
         // Both should now return 100 for size
         Assertions.assertEquals(100, mockList.size());
         Assertions.assertEquals(100, spyList.size());
+
+        // Verify interactions (both will pass) -> same as above
+        Mockito.verify(mockList, Mockito.times(1)).add(Mockito.anyInt());
+        Mockito.verify(spyList,  Mockito.times(1)).add(Mockito.eq(1));
     }
 }

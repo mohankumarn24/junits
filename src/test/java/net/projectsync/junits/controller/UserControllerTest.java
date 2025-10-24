@@ -149,7 +149,9 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof Exception));
 
+        // use any of the below statements
         Mockito.verify(userService, Mockito.times(0)).deleteUser(Mockito.anyLong());
+        Mockito.verify(userService, Mockito.never()).deleteUser(Mockito.anyLong());
     }
 
     @Test
@@ -185,6 +187,8 @@ public class UserControllerTest {
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof Exception))
                 .andExpect(result -> assertEquals("Required request body is missing: public org.springframework.http.ResponseEntity<net.projectsync.junits.model.User> net.projectsync.junits.controller.UserController.createUser(net.projectsync.junits.model.User)", result.getResolvedException().getMessage()));
 
+        // use any of the below statements
         Mockito.verify(userService, Mockito.times(0)).updateUser(Mockito.any(User.class));
+        Mockito.verify(userService, Mockito.never()).updateUser(Mockito.any(User.class));
     }
 }

@@ -129,7 +129,9 @@ public class UserServiceTest {
         });
         Assertions.assertEquals("File not found", exception.getMessage());
 
+        // use any of the below statements
         Mockito.verify(userRepository, Mockito.times(1)).deleteById(Mockito.anyLong());
+        Mockito.verify(userRepository, Mockito.times(1)).deleteById(Mockito.eq(1L));
     }
 
     // throw checked exception for non-void method
@@ -145,7 +147,9 @@ public class UserServiceTest {
         });
         Assertions.assertEquals("File not found", exception.getMessage());
 
+        // use any of the below statements
         Mockito.verify(userRepository, Mockito.times(1)).findById(Mockito.anyLong());
+        Mockito.verify(userRepository, Mockito.times(1)).findById(Mockito.eq(1L));
     }
 
     // throw unchecked exception for void method
@@ -177,7 +181,9 @@ public class UserServiceTest {
         });
         Assertions.assertEquals("Division by zero", runtimeException.getMessage());
 
+        // use any of the below statements
         Mockito.verify(userRepository, Mockito.times(1)).findById(Mockito.anyLong());
+        Mockito.verify(userRepository, Mockito.times(1)).findById(Mockito.eq(1L));
     }
 
     /**
