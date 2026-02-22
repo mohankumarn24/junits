@@ -1,6 +1,8 @@
 package net.projectsync.junits;
 
-import org.junit.jupiter.api.Test;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 
 // This class is not needed. This slows down executing unit test cases as it uses @SpringBootTest
@@ -11,6 +13,26 @@ class JunitsApplicationTests {
 	void contextLoads() {
                                 // No assertions are needed; if the context fails to start, the test will fail
 	}
+
+	/*
+	@Before("")
+    public void before() {}
+
+	@BeforeEach
+	public void beforeEach() {}
+
+	@BeforeAll
+	public static void beforeAll() {}
+
+	@After("")
+	public void after() {}
+
+	@AfterEach
+	public void afterEach() {}
+	
+	@AfterAll
+	public static void afterAll() {}
+	 */
 }
 
 /*
