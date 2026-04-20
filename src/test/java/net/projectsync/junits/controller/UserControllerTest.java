@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/*
 /**
  | Bean Type                     | Loaded by `@WebMvcTest(UserController.class)`? |
  | ----------------------------- | ---------------------------------------------- |
@@ -33,6 +34,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(UserController.class)      // Unit test for the controller class only. Partial Spring context (web layer) needed i.e. loads beans relevant to controller/web layer.
 public class UserControllerTest {
 
+    /*
+     * - userService and mockMvc use field injection
+     * - Spring creates them and injects them later
+     * - final fields must be initialized immediately, either at declaration or through constructor.
+     * - Since Spring assigns these values after object creation, they cannot be final.
+     */
     @MockBean                          // Dependencies (Services, repositories) are mocked using @MockBean. Spring injects the mock into the controller.
     private UserService userService;
     
